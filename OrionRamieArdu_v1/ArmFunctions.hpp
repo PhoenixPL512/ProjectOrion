@@ -30,14 +30,7 @@ class Motor {
   int direction;
   int feedback;
 
-  Motor(MotorNames m_name, MotorTypes m_type, int pwmPin, int directionPin = -1, int feedbackPin = -1)
-  {
-    name = m_name;
-    type = m_type;
-    pwm = pwmPin;
-    direction = directionPin;
-    feedback = feedbackPin;
-  }
+  Motor(MotorNames m_name, MotorTypes m_type, int pwmPin, int directionPin = -1, int feedbackPin = -1);
 };
 
 class OrionArm {
@@ -47,10 +40,7 @@ class OrionArm {
     int position;
   };
   
-  void moveMotor(MotorInfo motor)
-  {
-    
-  }
+  void moveMotor(MotorInfo motor);
 };
 
 #endif
