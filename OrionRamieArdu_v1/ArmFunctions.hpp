@@ -1,12 +1,12 @@
 #ifndef __ARMFUNCTIONS_HPP__
 #define __ARMFUNCTIONS_HPP__
 #include <ArduinoJson.h>
-#include <DualMC33926MotorShield.h>
+#include "MotorDriver.hpp"
 #include <Servo.h>
 
 class Motor {
   public:
-  enum MotorNames {
+  enum class MotorNames {
     ROTATION_DC,
     BASEDOWN_ACT,
     BASEMID_ACT,
@@ -18,29 +18,43 @@ class Motor {
     DOWN_SERVO
   };
 
-  enum MotorTypes {
+  enum class MotorTypes {
     DC,
     SERVO,
     ACTUATOR
   };
-
+  
+  private:
   MotorTypes type;
   MotorNames name;
   int pwm;
   int direction;
   int feedback;
+  int actualValue;
+  Servo servo;
+  MC33926MotorDriver motorDriver;  
 
+  public:
+  //motor/driver functions
   Motor(MotorNames m_name, MotorTypes m_type, int pwmPin, int directionPin = -1, int feedbackPin = -1);
+  int setMotor(int value);
+  int getFeedback();
+
+  //get's
+  MotorTypes getMotorType();
+  MotorNames getMotorName();
+  int getActualValue();
 };
 
 class OrionArm {
-  public:  
+  private: 
   struct MotorInfo {
     Motor motorName;
     int position;
   };
+
+  public:
   
-  void moveMotor(MotorInfo motor);
 };
 
 #endif
