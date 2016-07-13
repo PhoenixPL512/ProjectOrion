@@ -52,13 +52,13 @@ int Motor::getFeedback()
     return servo.read(); //angle
 }
 
-int Motor::getMotorType()
+Motor::MotorTypes Motor::getMotorType()
 {
-  return static_cast<int>(type);
+  return type;
 }
 
-int Motor::getMotorName()
+Motor::MotorNames Motor::getMotorName()
 {
-  return static_cast<int>(name);
+  return name;
 }
 

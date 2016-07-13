@@ -37,8 +37,8 @@ class Motor {
   int getFeedback();
 
   //get's
-  int getMotorType();
-  int getMotorName();
+  MotorTypes getMotorType();
+  MotorNames getMotorName();
 };
 
 class OrionArm {
