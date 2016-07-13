@@ -47,9 +47,10 @@ class OrionArm {
     Motor motorName;
     int position;
   };
+  Motor armMotors[9];
 
   public:
-  
+  OrionArm();
 };
 
 #endif
