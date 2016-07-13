@@ -27,23 +27,18 @@ class Motor {
   private:
   MotorTypes type;
   MotorNames name;
-  int pwm;
-  int direction;
-  int feedback;
-  int actualValue;
   Servo servo;
   MC33926MotorDriver motorDriver;  
 
   public:
   //motor/driver functions
-  Motor(MotorNames m_name, MotorTypes m_type, int pwmPin, int directionPin = -1, int feedbackPin = -1);
+  Motor(MotorNames motor_name, MotorTypes motor_type, int pwmPin, int directionPin = -1, int feedbackPin = -1, int nD2Pin = -1, int nSFPin= -1);
   int setMotor(int value);
   int getFeedback();
 
   //get's
-  MotorTypes getMotorType();
-  MotorNames getMotorName();
-  int getActualValue();
+  int getMotorType();
+  int getMotorName();
 };
 
 class OrionArm {
