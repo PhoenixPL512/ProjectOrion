@@ -32,7 +32,7 @@ class Motor {
 
   public:
   //motor/driver functions
-  Motor(MotorNames motor_name, MotorTypes motor_type, int pwmPin, int directionPin = -1, int feedbackPin = -1, int nD2Pin = -1, int nSFPin= -1);
+  void configure(MotorNames motor_name, MotorTypes motor_type, int pwmPin, int directionPin = -1, int feedbackPin = -1, int nD2Pin = -1, int nSFPin= -1);
   int setMotor(int value);
   int getFeedback();
 
@@ -50,7 +50,6 @@ class OrionArm {
   Motor armMotors[9];
 
   public:
-  OrionArm();
 };
 
 #endif

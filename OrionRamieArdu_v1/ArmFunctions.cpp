@@ -1,11 +1,12 @@
 #include "ArmFunctions.hpp"
 
-Motor::Motor(MotorNames motor_name, MotorTypes motor_type, int pwmPin, int directionPin, int feedbackPin, int nD2Pin, int nSFPin)
+void Motor::configure(MotorNames motor_name, MotorTypes motor_type, int pwmPin, int directionPin, int feedbackPin, int nD2Pin, int nSFPin)
 {
   if (motor_type == MotorTypes::SERVO) {
     servo.attach(pwmPin);
   } else if (motor_type == MotorTypes::DC || motor_type == MotorTypes::ACTUATOR) {
     motorDriver.setPins(directionPin, pwmPin, feedbackPin, nD2Pin, nSFPin);
+    motorDriver.init();
   }
 
   type = motor_type;
