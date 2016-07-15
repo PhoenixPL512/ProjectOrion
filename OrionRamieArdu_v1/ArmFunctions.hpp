@@ -7,7 +7,7 @@
 class Motor {
   public:
   enum class MotorNames {
-    ROTATION_DC,
+    ROTATION_DC = 0,
     BASEDOWN_ACT,
     BASEMID_ACT,
     BASEUP_DC,
@@ -19,7 +19,7 @@ class Motor {
   };
 
   enum class MotorTypes {
-    DC,
+    DC = 0,
     SERVO,
     ACTUATOR
   };
@@ -47,9 +47,24 @@ class OrionArm {
     Motor motorName;
     int position;
   };
+  
+  struct MotorFeedback {
+    Motor motorName;
+    int feedback;
+  };
+  
   Motor armMotors[9];
+  
+  MotorInfo parseJSON(String json);
+  String parseFeedback(MotorFeedback fb);
+  String readJSON();
+  void writeJSON();
 
   public:
+  void init();
+  void enableArmControl();
+  void disableArmControl();
+  void demo();
 };
 
 #endif

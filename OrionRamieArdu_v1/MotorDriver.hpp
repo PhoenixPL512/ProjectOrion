@@ -13,7 +13,7 @@ class MC33926MotorDriver {
   
   public:
   MC33926MotorDriver();
-  void setPins(int _directory, int _pwm, int _feedback, int _nD2, int _nSF);
+  void setPins(int _directory, int _pwm, int _feedback, int _nD2, int _nSF, bool init = true);
   void init();
   void setSpeed(int speed);
   int getCurrent();

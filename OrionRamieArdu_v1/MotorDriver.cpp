@@ -5,7 +5,7 @@ MC33926MotorDriver::MC33926MotorDriver()
   //empty ctor
 }
 
-void MC33926MotorDriver::setPins(int _directory, int _pwm, int _feedback, int _nD2, int _nSF)
+void MC33926MotorDriver::setPins(int _directory, int _pwm, int _feedback, int _nD2, int _nSF, bool init)
 {
   directory = _directory;
   pwm = _pwm;
@@ -13,6 +13,7 @@ void MC33926MotorDriver::setPins(int _directory, int _pwm, int _feedback, int _n
   nD2 = _nD2;
   nSF = _nSF;
   pinsSet = true;
+  if (init) this->init();
 }
 
 void MC33926MotorDriver::init()
