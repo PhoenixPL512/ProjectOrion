@@ -3,6 +3,7 @@
 #include <ArduinoJson.h>
 #include "MotorDriver.hpp"
 #include <Servo.h>
+#define NUMBER_OF_ENGINES 9
 
 class Motor {
   public:
@@ -44,21 +45,17 @@ class Motor {
 class OrionArm {
   private: 
   struct MotorInfo {
-    Motor motorName;
+    int motorNumber;
     int position;
   };
   
-  struct MotorFeedback {
-    Motor motorName;
-    int feedback;
-  };
-  
   Motor armMotors[9];
+  StaticJsonBuffer<50> jsonBuffer;
   
-  MotorInfo parseJSON(String json);
-  String parseFeedback(MotorFeedback fb);
-  String readJSON();
-  void writeJSON();
+  OrionArm::MotorInfo parseJSON(String json);
+  inline String readJSON();
+  inline void writeJSON(String json);
+  void armEvents();
 
   public:
   void init();

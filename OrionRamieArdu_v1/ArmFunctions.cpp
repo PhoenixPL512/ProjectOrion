@@ -1,6 +1,8 @@
 #include "ArmFunctions.hpp"
 
 //motor class
+
+
 void Motor::configure(MotorNames motor_name, MotorTypes motor_type, int pwmPin, int directionPin, int feedbackPin, int nD2Pin, int nSFPin)
 {
   if (motor_type == MotorTypes::SERVO) {
@@ -49,7 +51,7 @@ int Motor::setMotor(int value)
 int Motor::getFeedback()
 {
   if (type == MotorTypes::DC || type == MotorTypes::ACTUATOR)
-    if (motorDriver.getFault()) return -1; else return motorDriver.getCurrent(); //if driver error (current overflow), -1. Else, current.
+    if (motorDriver.getFault()) return -1; else return motorDriver.getCurrent(); //if driver error (current overflow or something), -1. Else, current.
   else
     return servo.read(); //angle
 }
@@ -65,6 +67,7 @@ Motor::MotorNames Motor::getMotorName()
 }
 
 //Arm class
+
 void OrionArm::init()
 {
   Serial.begin(14400);
@@ -79,8 +82,36 @@ void OrionArm::init()
   armMotors[8].configure(Motor::MotorNames::DOWN_SERVO, Motor::MotorTypes::SERVO, 11);
 }
 
-void OrionArm::enableArmControl()
+OrionArm::MotorInfo OrionArm::parseJSON(String json)
 {
-  
+  JsonObject& root = jsonBuffer.parseObject(json);
+  OrionArm::MotorInfo ret;
+  ret.motorNumber = root["engine"];
+  ret.position = root["value"];
+  return ret;
 }
 
+inline String OrionArm::readJSON()
+{
+  if (Serial.available() > 0)
+    return Serial.readStringUntil('\r');
+  else return "";
+}
+
+inline void OrionArm::writeJSON(String json)
+{
+  if (Serial) Serial.println(json);
+}
+
+void OrionArm::enableArmControl()
+{
+  String jsonBuf;
+  MotorInfo info;
+  while(true)
+  {
+    jsonBuf = readJSON();
+    if (jsonBuf == "") continue;
+    info = parseJSON(jsonBuf);
+    armMotors[static_cast<int>(info.motorNumber)].setMotor(info.position);
+  }
+}
