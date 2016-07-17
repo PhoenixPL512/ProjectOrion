@@ -70,7 +70,7 @@ Motor::MotorNames Motor::getMotorName()
 
 void OrionArm::init()
 {
-  Serial.begin(14400);
+  Serial.begin(19200);
   armMotors[0].configure(Motor::MotorNames::ROTATION_DC, Motor::MotorTypes::DC, 2, 22, A0, 24, 25);
   armMotors[1].configure(Motor::MotorNames::BASEDOWN_ACT, Motor::MotorTypes::ACTUATOR, 3, 23, A1, 24, 25);
   armMotors[2].configure(Motor::MotorNames::BASEMID_ACT, Motor::MotorTypes::ACTUATOR, 4, 26, A2, 28, 29);
@@ -81,21 +81,38 @@ void OrionArm::init()
   armMotors[7].configure(Motor::MotorNames::RIGHT_SERVO, Motor::MotorTypes::SERVO, 10);
   armMotors[8].configure(Motor::MotorNames::GEOMETRY_SERVO, Motor::MotorTypes::SERVO, 11);
 }
-
+//{"RotationArmMotor":1,"BaseDownArmMotor":2,"BaseMidArmMotor":3,"BaseUpArmMotor":4,"GrasperRotationArmMotor":5,"UpArmServo":10,"RightArmServo":45,"LeftArmServo":90,"GeometryArmServo":120}
 void OrionArm::parseJSON(String json, MotorInfo info[])
 {
+  //Serial.print("parseJSON: ");
+  //Serial.println(json);
   JsonObject& root = jsonBuffer.parseObject(json);
+  //Serial.print("Size of json: ");
+  //Serial.println(root.size());
+  //Serial.print("Success? ");
+  //Serial.println(root.success());
   for (int i = 0; i < 9; i++)
   {
+    //Serial.print("[");
+    //Serial.print(motorNamesStr[i]);
+    //Serial.print("] - ");
+    //Serial.println((long)root[motorNamesStr[i]]);
     info[i].motorNumber = i;
-    info[i].position = root[motorNamesStr[i]];
+    info[i].position = root.get<int>(motorNamesStr[i]);
   }
 }
 
 inline String OrionArm::readJSON()
 {
+  //String ret;
   if (Serial.available() > 0)
-    return Serial.readStringUntil('\r');
+  {
+    //ret = Serial.readStringUntil('\n');
+    //Serial.print("readJSON: ");
+    //Serial.println(ret);
+    //return ret;
+    return Serial.readStringUntil('\n');
+  }
   else return "";
 }
 
@@ -110,11 +127,17 @@ void OrionArm::enableArmControl()
   MotorInfo info[9];
   while(true)
   {
+    /*for (int i = 0; i < 180; i++)
+      { armMotors[5].setMotor(i); delay(10); }*/
     jsonBuf = readJSON();
     if (jsonBuf == "") continue;
     parseJSON(jsonBuf, info);
     for (int i = 0; i < 9; i++)
     {
+      //Serial.print("Engine: ");
+      //Serial.print(info[i].motorNumber);
+      //Serial.print(", pos: ");
+      //Serial.println(info[i].position);
       armMotors[info[i].motorNumber].setMotor(info[i].position);
     }
   }
