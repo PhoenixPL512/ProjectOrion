@@ -79,16 +79,17 @@ void OrionArm::init()
   armMotors[5].configure(Motor::MotorNames::UP_SERVO, Motor::MotorTypes::SERVO, 8);
   armMotors[6].configure(Motor::MotorNames::LEFT_SERVO, Motor::MotorTypes::SERVO, 9);
   armMotors[7].configure(Motor::MotorNames::RIGHT_SERVO, Motor::MotorTypes::SERVO, 10);
-  armMotors[8].configure(Motor::MotorNames::DOWN_SERVO, Motor::MotorTypes::SERVO, 11);
+  armMotors[8].configure(Motor::MotorNames::GEOMETRY_SERVO, Motor::MotorTypes::SERVO, 11);
 }
 
-OrionArm::MotorInfo OrionArm::parseJSON(String json)
+void OrionArm::parseJSON(String json, MotorInfo info[])
 {
   JsonObject& root = jsonBuffer.parseObject(json);
-  OrionArm::MotorInfo ret;
-  ret.motorNumber = root["engine"];
-  ret.position = root["value"];
-  return ret;
+  for (int i = 0; i < 9; i++)
+  {
+    info[i].motorNumber = i;
+    info[i].position = root[motorNamesStr[i]];
+  }
 }
 
 inline String OrionArm::readJSON()
@@ -106,12 +107,15 @@ inline void OrionArm::writeJSON(String json)
 void OrionArm::enableArmControl()
 {
   String jsonBuf;
-  MotorInfo info;
+  MotorInfo info[9];
   while(true)
   {
     jsonBuf = readJSON();
     if (jsonBuf == "") continue;
-    info = parseJSON(jsonBuf);
-    armMotors[static_cast<int>(info.motorNumber)].setMotor(info.position);
+    parseJSON(jsonBuf, info);
+    for (int i = 0; i < 9; i++)
+    {
+      armMotors[info[i].motorNumber].setMotor(info[i].position);
+    }
   }
 }

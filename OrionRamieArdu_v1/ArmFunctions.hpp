@@ -16,7 +16,7 @@ class Motor {
     UP_SERVO,
     LEFT_SERVO,
     RIGHT_SERVO,
-    DOWN_SERVO
+    GEOMETRY_SERVO
   };
 
   enum class MotorTypes {
@@ -50,9 +50,10 @@ class OrionArm {
   };
   
   Motor armMotors[9];
-  StaticJsonBuffer<50> jsonBuffer;
+  const String motorNamesStr[9] = {"RotationArmMotor", "BaseDownArmMotor", "BaseMidArmMotor", "BaseUpArmMotor", "GrasperRotationArmMotor", "UpArmServo", "LeftArmServo", "RightArmServo", "GeometryArmServo" };
+  StaticJsonBuffer<100> jsonBuffer;
   
-  OrionArm::MotorInfo parseJSON(String json);
+  void parseJSON(String json, MotorInfo info[]);
   inline String readJSON();
   inline void writeJSON(String json);
   void armEvents();
