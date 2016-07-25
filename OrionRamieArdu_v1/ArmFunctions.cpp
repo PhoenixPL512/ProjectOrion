@@ -70,7 +70,7 @@ Motor::MotorNames Motor::getMotorName()
 
 void OrionArm::init()
 {
-  Serial.begin(19200);
+  Serial.begin(115200);
   armMotors[0].configure(Motor::MotorNames::ROTATION_DC, Motor::MotorTypes::DC, 2, 22, A0, 24, 25);
   armMotors[1].configure(Motor::MotorNames::BASEDOWN_ACT, Motor::MotorTypes::ACTUATOR, 3, 23, A1, 24, 25);
   armMotors[2].configure(Motor::MotorNames::BASEMID_ACT, Motor::MotorTypes::ACTUATOR, 4, 26, A2, 28, 29);
