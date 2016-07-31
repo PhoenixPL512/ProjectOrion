@@ -20,3 +20,4 @@ class MC33926MotorDriver {
   bool getFault();
 };
 #endif
+

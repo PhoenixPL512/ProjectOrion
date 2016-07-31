@@ -59,3 +59,4 @@ bool MC33926MotorDriver::getFault()
   return !digitalRead(nSF);
 }
 
+

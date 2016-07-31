@@ -84,19 +84,20 @@ void OrionArm::init()
 //{"RotationArmMotor":1,"BaseDownArmMotor":2,"BaseMidArmMotor":3,"BaseUpArmMotor":4,"GrasperRotationArmMotor":5,"UpArmServo":10,"RightArmServo":45,"LeftArmServo":90,"GeometryArmServo":120}
 void OrionArm::parseJSON(String json, MotorInfo info[])
 {
-  //Serial.print("parseJSON: ");
-  //Serial.println(json);
+  StaticJsonBuffer<512> jsonBuffer;
+  Serial.print("parseJSON: ");
+  Serial.println(json);
   JsonObject& root = jsonBuffer.parseObject(json);
-  //Serial.print("Size of json: ");
-  //Serial.println(root.size());
-  //Serial.print("Success? ");
-  //Serial.println(root.success());
+  Serial.print("Size of json: ");
+  Serial.println(root.size());
+  Serial.print("Success? ");
+  Serial.println(root.success());
   for (int i = 0; i < 9; i++)
   {
-    //Serial.print("[");
-    //Serial.print(motorNamesStr[i]);
-    //Serial.print("] - ");
-    //Serial.println((long)root[motorNamesStr[i]]);
+    Serial.print("[");
+    Serial.print(motorNamesStr[i]);
+    Serial.print("] - ");
+    Serial.println((long)root[motorNamesStr[i]]);
     info[i].motorNumber = i;
     info[i].position = root.get<int>(motorNamesStr[i]);
   }
@@ -142,3 +143,4 @@ void OrionArm::enableArmControl()
     }
   }
 }
+

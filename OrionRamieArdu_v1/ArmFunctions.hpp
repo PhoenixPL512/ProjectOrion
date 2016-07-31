@@ -51,7 +51,6 @@ class OrionArm {
   
   Motor armMotors[9];
   const String motorNamesStr[9] = {"RotationArmMotor", "BaseDownArmMotor", "BaseMidArmMotor", "BaseUpArmMotor", "GrasperRotationArmMotor", "UpArmServo", "LeftArmServo", "RightArmServo", "GeometryArmServo" };
-  StaticJsonBuffer<512> jsonBuffer;
   
   void parseJSON(String json, MotorInfo info[]);
   inline String readJSON();
