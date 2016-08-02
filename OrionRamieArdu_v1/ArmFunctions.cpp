@@ -2,11 +2,11 @@
 
 //motor class
 
-
 void Motor::configure(MotorNames motor_name, MotorTypes motor_type, int pwmPin, int directionPin, int feedbackPin, int nD2Pin, int nSFPin)
 {
   if (motor_type == MotorTypes::SERVO) {
     servo.attach(pwmPin);
+    servo.write(30);
   } else if (motor_type == MotorTypes::DC || motor_type == MotorTypes::ACTUATOR) {
     motorDriver.setPins(directionPin, pwmPin, feedbackPin, nD2Pin, nSFPin);
     motorDriver.init();
@@ -87,6 +87,7 @@ void OrionArm::init()
   armMotors[7].configure(Motor::MotorNames::RIGHT_SERVO, Motor::MotorTypes::SERVO, 10);
   armMotors[8].configure(Motor::MotorNames::GEOMETRY_SERVO, Motor::MotorTypes::SERVO, 11);
 }
+
 //{"RotationArmMotor":1,"BaseDownArmMotor":2,"BaseMidArmMotor":3,"BaseUpArmMotor":4,"GrasperRotationArmMotor":5,"UpArmServo":10,"RightArmServo":45,"LeftArmServo":90,"GeometryArmServo":120}
 void OrionArm::parseJSON(String json, MotorInfo info[])
 {
