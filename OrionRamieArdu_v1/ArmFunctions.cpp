@@ -71,11 +71,17 @@ Motor::MotorNames Motor::getMotorName()
 void OrionArm::init()
 {
   Serial.begin(115200);
-  armMotors[0].configure(Motor::MotorNames::ROTATION_DC, Motor::MotorTypes::DC, 2, 22, A0, 24, 25);
+  //armMotors[0].configure(Motor::MotorNames::ROTATION_DC, Motor::MotorTypes::DC, 2, 22, A0, 24, 25);
+  //STEROWNIK #1
+  armMotors[0].configure(Motor::MotorNames::BASEMID_ACT, Motor::MotorTypes::ACTUATOR, 2, 22, A0, 24, 25);
   armMotors[1].configure(Motor::MotorNames::BASEDOWN_ACT, Motor::MotorTypes::ACTUATOR, 3, 23, A1, 24, 25);
-  armMotors[2].configure(Motor::MotorNames::BASEMID_ACT, Motor::MotorTypes::ACTUATOR, 4, 26, A2, 28, 29);
+  //armMotors[2].configure(Motor::MotorNames::BASEMID_ACT, Motor::MotorTypes::ACTUATOR, 4, 26, A2, 28, 29);
+  //STEROWNIK #2
+  armMotors[2].configure(Motor::MotorNames::ROTATION_DC, Motor::MotorTypes::DC, 4, 26, A2, 28, 29);
   armMotors[3].configure(Motor::MotorNames::BASEUP_DC, Motor::MotorTypes::DC, 5, 27, A3, 28, 29);
+  //STEROWNIK #3
   armMotors[4].configure(Motor::MotorNames::GRASPER_DC, Motor::MotorTypes::DC, 6, 30, A4, 32, 33);
+  //SERWOMOTORY
   armMotors[5].configure(Motor::MotorNames::UP_SERVO, Motor::MotorTypes::SERVO, 8);
   armMotors[6].configure(Motor::MotorNames::LEFT_SERVO, Motor::MotorTypes::SERVO, 9);
   armMotors[7].configure(Motor::MotorNames::RIGHT_SERVO, Motor::MotorTypes::SERVO, 10);
