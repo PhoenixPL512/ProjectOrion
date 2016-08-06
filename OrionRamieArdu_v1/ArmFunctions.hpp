@@ -50,9 +50,10 @@ class OrionArm {
   };
   
   Motor armMotors[9];
-  const String motorNamesStr[9] = {"RotationArmMotor", "BaseDownArmMotor", "BaseMidArmMotor", "BaseUpArmMotor", "GrasperRotationArmMotor", "UpArmServo", "LeftArmServo", "RightArmServo", "GeometryArmServo" };
+  //const String motorNamesStr[9] = {"RotationArmMotor ZAMIENIONY", "BaseDownArmMotor", "BaseMidArmMotor ZAMIENIONY", "BaseUpArmMotor", "GrasperRotationArmMotor", "UpArmServo", "LeftArmServo", "RightArmServo", "GeometryArmServo" };
+  const String motorNamesStr[9] = {"EUA", "SLA", "TRT", "WUD", "WRN", "GGGT", "GGGL", "GGGR", "GGY"};
   
-  void parseJSON(String json, MotorInfo info[]);
+  bool parseJSON(String json, MotorInfo info[]);
   inline String readJSON();
   inline void writeJSON(String json);
   void armEvents();
