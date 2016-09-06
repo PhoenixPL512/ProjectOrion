@@ -71,7 +71,7 @@ Motor::MotorNames Motor::getMotorName()
 void OrionArm::init()
 {
   Serial.begin(115200);
-  Serial3.begin(115200);
+  //Serial3.begin(115200);
   //armMotors[0].configure(Motor::MotorNames::ROTATION_DC, Motor::MotorTypes::DC, 2, 22, A0, 24, 25);
   //STEROWNIK #1
   armMotors[0].configure(Motor::MotorNames::BASEMID_ACT, Motor::MotorTypes::ACTUATOR, 2, 22, A0, 24, 25);
@@ -87,7 +87,7 @@ void OrionArm::init()
   armMotors[6].configure(Motor::MotorNames::LEFT_SERVO, Motor::MotorTypes::SERVO, 9);
   armMotors[7].configure(Motor::MotorNames::RIGHT_SERVO, Motor::MotorTypes::SERVO, 10);
   armMotors[8].configure(Motor::MotorNames::GEOMETRY_SERVO, Motor::MotorTypes::SERVO, 11);
-  Serial3.println("BOOT COMPLETE");
+  //Serial3.println("BOOT COMPLETE");
 }
 
 
@@ -114,16 +114,24 @@ bool OrionArm::parseJSON(String json, MotorInfo info[])
   return true;
 }
 
-inline int OrionArm::getVoltage()
+inline float OrionArm::getVoltage()
 {
-  
+  float readValue = static_cast<float>(analogRead(A5));
+  float vIn = readValue * (3.3/4095.0);
+  return (9.47943284 * vIn) + 0.86341353;
 }
 
 void OrionArm::sendFeedback()
 {
   StaticJsonBuffer<256> jsonBuffer;
   JsonObject &root = jsonBuffer.createObject();
-  root["EUAF"] = 
+  root["EUAF"] = armMotors[0].getFeedback();
+  root["SLAF"] = armMotors[1].getFeedback();
+  root["TRTF"] = armMotors[2].getFeedback();
+  root["WUDF"] = armMotors[3].getFeedback();
+  root["WRNF"] = armMotors[4].getFeedback();
+  root["VOUT"] = getVoltage();
+  root.printTo(Serial);
 }
 
 inline String OrionArm::readJSON()
