@@ -94,13 +94,13 @@ void OrionArm::init()
 bool OrionArm::parseJSON(String json, MotorInfo info[])
 {
   StaticJsonBuffer<256> jsonBuffer;
-  Serial3.print("parseJSON: ");
-  Serial3.println(json);
+  //Serial3.print("parseJSON: ");
+  //Serial3.println(json);
   JsonObject& root = jsonBuffer.parseObject(json);
   //Serial.print("Size of json: ");
   //Serial.println(root.size());
-  Serial3.print("Success? ");
-  Serial3.println(root.success());
+  //Serial3.print("Success? ");
+  //Serial3.println(root.success());
   if (!root.success()) { return false; }
   for (int i = 0; i < NUMBER_OF_ENGINES; i++)
   {
@@ -114,6 +114,18 @@ bool OrionArm::parseJSON(String json, MotorInfo info[])
   return true;
 }
 
+inline int OrionArm::getVoltage()
+{
+  
+}
+
+void OrionArm::sendFeedback()
+{
+  StaticJsonBuffer<256> jsonBuffer;
+  JsonObject &root = jsonBuffer.createObject();
+  root["EUAF"] = 
+}
+
 inline String OrionArm::readJSON()
 {
   String ret;
@@ -123,7 +135,7 @@ inline String OrionArm::readJSON()
     //Serial3.print("readJSON: ");
     //Serial3.println(ret);
     //return ret;
-    
+    sendFeedback();
     return Serial.readStringUntil('\n');
   }
   else return "";

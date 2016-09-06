@@ -57,7 +57,9 @@ class OrionArm {
   inline String readJSON();
   inline void writeJSON(String json);
   void armEvents();
-
+  void sendFeedback();
+  inline int getVoltage();
+  
   public:
   void init();
   void enableArmControl();
