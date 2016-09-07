@@ -132,11 +132,12 @@ void OrionArm::sendFeedback()
   root["WRNF"] = armMotors[4].getFeedback();
   root["VOUT"] = getVoltage();
   root.printTo(Serial);
+  Serial.print("\n");
 }
 
 inline String OrionArm::readJSON()
 {
-  String ret;
+  //String ret;
   if (Serial.available() > 0)
   {
     //ret = Serial.readStringUntil('\n');
